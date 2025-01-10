@@ -1,0 +1,34 @@
+@for (question of selectedCategory.slice(currentState, allQuestions); track
+$index) {
+<form [formGroup]="questionForm" class="w-100">
+  @switch (question.type) { @case ("freetext") {
+  <mat-form-field class="w-100">
+    <mat-label>{{ question.question }}</mat-label>
+    <input matInput formControlName="textInput" />
+  </mat-form-field>
+  } @case ("multiple") {
+  <mat-form-field class="w-100">
+    <mat-label>{{ question.question }}</mat-label>
+    <mat-select
+      formControlName="selectInput"
+      (selectionChange)="
+        onAnswerQuestion(question.correct_answer, $event.value)
+      "
+    >
+      @for (question of mergeMultipleAnswers(question); track $index) {
+      <mat-option [value]="question">{{ question }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  } }
+</form>
+}
+<div class="d-flex justify-content-end">
+  <button
+    class="btn btn-primary"
+    [disabled]="questionForm.invalid"
+    (click)="nextQuestion()"
+  >
+    {{ allQuestions < selectedCategory.length ? "Next" : "Finish" }}
+  </button>
+</div>

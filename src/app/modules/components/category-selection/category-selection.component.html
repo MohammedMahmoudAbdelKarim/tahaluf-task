@@ -1,0 +1,51 @@
+<div class="container">
+  @if (isQuizFinished) {
+  <p class="p-5 text-center fs-4">
+    Your score is <span>{{ 0 }}</span>
+  </p>
+  } @else {
+  <div class="p-3 d-flex align-items-center justify-content-between w-100">
+    <h1 class="p-3 mb-0">Quiz</h1>
+    <span
+      >Total Questions:
+      <span class="fw-bold"> {{ selectedCategory.length }} </span></span
+    >
+    <app-progress-bar
+      [radius]="100"
+      [percent]="(currentQuestion / selectedCategory.length) * 100"
+    ></app-progress-bar>
+  </div>
+  <form [formGroup]="quizForm" class="w-100">
+    <div class="form-group">
+      <mat-form-field class="w-100">
+        <mat-label>Select Category</mat-label>
+        <mat-select
+          formControlName="category"
+          name="food"
+          (selectionChange)="onSelectCategory($event.value)"
+        >
+          @for (category of categoriesTypes; track category) {
+          <mat-option [value]="category">{{ category }}</mat-option>
+          }
+        </mat-select>
+        <mat-hint>Please select a category to start the quiz</mat-hint>
+        <mat-error>
+          @if (quizForm.get('category')?.hasError('required') &&
+          quizForm.get('category')?.touched) { Category is required! }
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+  <div class="py-4">
+    @if (selectedCategory.length) {
+    <app-question-control
+      [selectedCategory]="selectedCategory"
+      (completeQuestionEmitter)="currentQuestion = $event"
+      (completeQuizEmitter)="isQuizFinished = $event"
+    ></app-question-control>
+    } @else {
+    <p class="text-center text-muted">No Category Selected yet !</p>
+    }
+  </div>
+  }
+</div>
