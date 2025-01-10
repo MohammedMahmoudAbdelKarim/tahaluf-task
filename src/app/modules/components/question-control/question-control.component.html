@@ -11,9 +11,7 @@ $index) {
     <mat-label>{{ question.question }}</mat-label>
     <mat-select
       formControlName="selectInput"
-      (selectionChange)="
-        onAnswerQuestion(question.correct_answer, $event.value)
-      "
+      (selectionChange)="onAnswerQuestion(question, $event.value)"
     >
       @for (question of mergeMultipleAnswers(question); track $index) {
       <mat-option [value]="question">{{ question }}</mat-option>

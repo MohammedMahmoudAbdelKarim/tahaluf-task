@@ -60,5 +60,10 @@ export class QuestionControlComponent {
       this.completeQuizEmitter.emit(true);
     }
   }
-  onAnswerQuestion(correctAnswer: string, answer: string): void {}
+  onAnswerQuestion(question: CategoryModel, answer: string): void {
+    if (question.correct_answer === answer) {
+      switch (question.difficulty) {
+      }
+    }
+  }
 }
